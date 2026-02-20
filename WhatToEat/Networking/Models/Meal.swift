@@ -1,12 +1,12 @@
 import Foundation
 
-struct Meal: Decodable, Identifiable {
+struct Meal: Decodable, Identifiable, Hashable {
     let idMeal: String
     let strMeal: String
     let strMealAlternate: String?
     let strCategory: String
     let strArea: String
-    let strInstructions: String?
+    let strInstructions: String
     let strMealThumb: String?
     let strTags: String?
     let strYoutube: String?
@@ -41,7 +41,7 @@ struct Meal: Decodable, Identifiable {
         strMealAlternate = try container.decodeIfPresent(String.self, forKey: .strMealAlternate)
         strCategory = try container.decodeIfPresent(String.self, forKey: .strCategory) ?? "no_data"
         strArea = try container.decodeIfPresent(String.self, forKey: .strArea) ?? "no_data"
-        strInstructions = try container.decodeIfPresent(String.self, forKey: .strInstructions)
+        strInstructions = try container.decodeIfPresent(String.self, forKey: .strInstructions) ?? "no_data"
         strMealThumb = try container.decodeIfPresent(String.self, forKey: .strMealThumb)
         strTags = try container.decodeIfPresent(String.self, forKey: .strTags)
         strYoutube = try container.decodeIfPresent(String.self, forKey: .strYoutube)

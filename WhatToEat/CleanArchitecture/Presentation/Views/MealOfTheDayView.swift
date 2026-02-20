@@ -2,13 +2,15 @@ import SwiftUI
 
 struct MealOfTheDayView: View {
     @StateObject private var viewModel: MealOfTheDayViewModel
+    @Namespace private var transitionNamespace
+    @State private var selectedMeal: Meal?
     private let thumbnailSize: MealThumbnailSize
     
     init(viewModel: MealOfTheDayViewModel, thumbnailSize: MealThumbnailSize = .medium) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.thumbnailSize = thumbnailSize
     }
-
+    
     private var alertBinding: Binding<AlertItem?> {
         Binding(
             get: { viewModel.alertItem },
@@ -20,18 +22,19 @@ struct MealOfTheDayView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.mealEntries) { entry in
-                    MealListCell(meal: entry.meal, thumbnailSize: thumbnailSize)
+                    mealRow(entry)
                 }
             }
             .listStyle(.plain)
             .navigationTitle("Meal of the day")
+            .listRowSeparator(.hidden)
             .refreshable {
                 await viewModel.refreshMeals()
             }
-            .task() {
+            .task {
                 for await meal in viewModel.liveMealOfTheDay {
                     withAnimation(.easeInOut(duration: 0.3)) {
-                        viewModel.push(meal)
+//                        viewModel.push(meal)
                     }
                 }
             }
@@ -47,43 +50,24 @@ struct MealOfTheDayView: View {
                     dismissButton: alertItem.dismissButton
                 )
             }
-        }
-    }
-
-    private func mealCard(_ entry: MealFeedEntry) -> some View {
-        CachedRemoteImage(url: entry.meal.thumbnailURL(size: thumbnailSize))
-            .aspectRatio(contentMode: .fill)
-            .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180)
-            .clipped()
-            .cornerRadius(8)
-            .listRowSeparator(.hidden)
-            .overlay(alignment: .bottomLeading) {
-                titleOverlay(entry)
+            .navigationDestination(item: $selectedMeal) { meal in
+                MealDetailsView(meal: meal)
+                    .toolbar(.hidden, for: .tabBar)
+                    .navigationTransition(.zoom(sourceID: meal.id, in: transitionNamespace))
+                
             }
-    }
-
-    private func titleOverlay(_ entry: MealFeedEntry) -> some View {
-        ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(.ultraThinMaterial)
-
-            Text(entry.meal.strMeal)
-                .font(.title2)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 12)
         }
-        .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .leading)
-        .clipShape(
-            UnevenRoundedRectangle(
-                cornerRadii: .init(
-                    topLeading: 0,
-                    bottomLeading: 8,
-                    bottomTrailing: 8,
-                    topTrailing: 0
-                )
-            )
-        )
+    }
+    
+    private func mealRow(_ entry: MealFeedEntry) -> some View {
+        Group {
+            MealListCell(meal: entry.meal, thumbnailSize: thumbnailSize)
+                .matchedTransitionSource(id: entry.meal.id, in: transitionNamespace)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selectedMeal = entry.meal
+        }
     }
 }
 
