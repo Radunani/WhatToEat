@@ -3,7 +3,10 @@
 
 # Xcode user data
 xcuserdata/
+*.xcuserdatad/
 *.xcuserstate
+*.xccheckout
+*.xcscmblueprint
 
 # Build products
 build/
