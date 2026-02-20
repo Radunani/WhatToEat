@@ -5,10 +5,16 @@ struct MealOfTheDayView: View {
     @Namespace private var transitionNamespace
     @State private var selectedMeal: Meal?
     private let thumbnailSize: MealThumbnailSize
-    
-    init(viewModel: MealOfTheDayViewModel, thumbnailSize: MealThumbnailSize = .medium) {
+    private let favoritesMealStore: FavoritesMealStore
+
+    init(
+        viewModel: MealOfTheDayViewModel,
+        thumbnailSize: MealThumbnailSize = .medium,
+        favoritesMealStore: FavoritesMealStore = CoreDataFavoritesManager()
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.thumbnailSize = thumbnailSize
+        self.favoritesMealStore = favoritesMealStore
     }
     
     private var alertBinding: Binding<AlertItem?> {
@@ -23,18 +29,18 @@ struct MealOfTheDayView: View {
             List {
                 ForEach(viewModel.mealEntries) { entry in
                     mealRow(entry)
+                        .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.plain)
             .navigationTitle("Meal of the day")
-            .listRowSeparator(.hidden)
             .refreshable {
                 await viewModel.refreshMeals()
             }
             .task {
                 for await meal in viewModel.liveMealOfTheDay {
                     withAnimation(.easeInOut(duration: 0.3)) {
-//                        viewModel.push(meal)
+                        viewModel.push(meal)
                     }
                 }
             }
@@ -51,17 +57,21 @@ struct MealOfTheDayView: View {
                 )
             }
             .navigationDestination(item: $selectedMeal) { meal in
-                MealDetailsView(meal: meal)
-                    .toolbar(.hidden, for: .tabBar)
-                    .navigationTransition(.zoom(sourceID: meal.id, in: transitionNamespace))
-                
+                    MealDetailsView(meal: meal, favoritesMealStore: favoritesMealStore)
+                        .toolbar(.hidden, for: .tabBar)
+                        .navigationTransition(.zoom(sourceID: meal.id, in: transitionNamespace))
+               
             }
         }
     }
     
     private func mealRow(_ entry: MealFeedEntry) -> some View {
         Group {
-            MealListCell(meal: entry.meal, thumbnailSize: thumbnailSize)
+            MealListCell(
+                meal: entry.meal,
+                thumbnailSize: thumbnailSize,
+                favoritesMealStore: favoritesMealStore
+            )
                 .matchedTransitionSource(id: entry.meal.id, in: transitionNamespace)
         }
         .contentShape(Rectangle())

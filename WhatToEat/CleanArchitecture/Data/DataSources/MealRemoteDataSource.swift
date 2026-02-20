@@ -2,6 +2,7 @@ import Foundation
 
 protocol MealRemoteDataSource {
     func randomMeal() async throws -> Meal?
+    func lookupMeal(byID id: String) async throws -> Meal?
     func searchMeals(byName name: String) async throws -> [Meal]
     func listCategories() async throws -> [MealCategory]
     func listItems(for type: MealListType) async throws -> MealListItems
@@ -17,6 +18,10 @@ struct MealRemoteDataSourceImpl: MealRemoteDataSource {
 
     func randomMeal() async throws -> Meal? {
         try await service.randomMeal()
+    }
+
+    func lookupMeal(byID id: String) async throws -> Meal? {
+        try await service.lookupMeal(byID: id)
     }
 
     func searchMeals(byName name: String) async throws -> [Meal] {
@@ -35,4 +40,3 @@ struct MealRemoteDataSourceImpl: MealRemoteDataSource {
         try await service.filterMeals(by: filter)
     }
 }
-

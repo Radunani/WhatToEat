@@ -11,6 +11,10 @@ struct MealRepositoryImpl: MealRepository {
         try await remoteDataSource.randomMeal()
     }
 
+    func lookupMeal(byID id: String) async throws -> Meal? {
+        try await remoteDataSource.lookupMeal(byID: id)
+    }
+
     func searchMeals(byName name: String) async throws -> [Meal] {
         try await remoteDataSource.searchMeals(byName: name)
     }
@@ -27,4 +31,3 @@ struct MealRepositoryImpl: MealRepository {
         try await remoteDataSource.filterMeals(by: filter)
     }
 }
-

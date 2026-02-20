@@ -34,6 +34,38 @@ struct Meal: Decodable, Identifiable, Hashable {
         case dateModified
     }
 
+    init(
+        idMeal: String,
+        strMeal: String,
+        strMealAlternate: String?,
+        strCategory: String,
+        strArea: String,
+        strInstructions: String,
+        strMealThumb: String?,
+        strTags: String?,
+        strYoutube: String?,
+        strSource: String?,
+        strImageSource: String?,
+        strCreativeCommonsConfirmed: String?,
+        dateModified: String?,
+        ingredients: [MealIngredient]
+    ) {
+        self.idMeal = idMeal
+        self.strMeal = strMeal
+        self.strMealAlternate = strMealAlternate
+        self.strCategory = strCategory
+        self.strArea = strArea
+        self.strInstructions = strInstructions
+        self.strMealThumb = strMealThumb
+        self.strTags = strTags
+        self.strYoutube = strYoutube
+        self.strSource = strSource
+        self.strImageSource = strImageSource
+        self.strCreativeCommonsConfirmed = strCreativeCommonsConfirmed
+        self.dateModified = dateModified
+        self.ingredients = ingredients
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         idMeal = try container.decode(String.self, forKey: .idMeal)

@@ -10,14 +10,24 @@ struct TabBarView: View {
     var body: some View {
         TabView {
             Tab("Meal of the day", systemImage: "sun.max") {
-                MealOfTheDayView(viewModel: container.makeMealOfTheDayViewModel())
+                MealOfTheDayView(
+                    viewModel: container.makeMealOfTheDayViewModel(),
+                    favoritesMealStore: container.makeFavoritesMealStore()
+                )
             }
             
             Tab("Meals", systemImage: "fork.knife") {
-                MealsView(viewModel: container.makeMealsViewModel())
+                MealsView(
+                    viewModel: container.makeMealsViewModel(),
+                    favoritesMealStore: container.makeFavoritesMealStore()
+                )
             }
             
             Tab("Favourites", systemImage: "heart") {
+                FavouritesView(
+                    viewModel: container.makeFavouritesViewModel(),
+                    favoritesMealStore: container.makeFavoritesMealStore()
+                )
             }
         }
     }

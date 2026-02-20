@@ -16,4 +16,10 @@ extension Meal {
 
         return baseURL.appendingPathComponent(size.rawValue)
     }
+
+    var displayTags: [String] {
+        [strArea, strCategory]
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
 }

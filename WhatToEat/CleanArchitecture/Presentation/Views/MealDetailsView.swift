@@ -4,6 +4,18 @@ struct MealDetailsView: View {
     let meal: Meal
     @Environment(\.openURL) private var openURL
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel: MealDetailsViewModel
+    private let onClose: (() -> Void)?
+
+    init(
+        meal: Meal,
+        favoritesMealStore: FavoritesMealStore = CoreDataFavoritesManager(),
+        onClose: (() -> Void)? = nil
+    ) {
+        self.meal = meal
+        _viewModel = StateObject(wrappedValue: MealDetailsViewModel(meal: meal, favoritesMealStore: favoritesMealStore))
+        self.onClose = onClose
+    }
 
     var body: some View {
         ScrollView {
@@ -28,7 +40,7 @@ struct MealDetailsView: View {
                         .padding(.horizontal)
 
                     VStack(spacing: 8) {
-                        ForEach(meal.ingredients, id: \.self) { row in
+                        ForEach(Array(meal.ingredients.enumerated()), id: \.offset) { _, row in
                             HStack(alignment: .firstTextBaseline, spacing: 8) {
                                 Text("• \(row.ingredient)")
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,13 +72,39 @@ struct MealDetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    Task { await viewModel.toggleFavorite() }
+                } label: {
+                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                }
+                .disabled(viewModel.isUpdatingFavorite)
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    dismiss()
+                    if let onClose {
+                        onClose()
+                    } else {
+                        dismiss()
+                    }
                 } label: {
                     Image(systemName: "xmark")
                 }
             }
+        }
+        .task {
+            await viewModel.loadFavoriteState()
+        }
+        .alert(
+            "Error",
+            isPresented: Binding(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.clearError() }
+            )
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(viewModel.errorMessage ?? "")
         }
     }
 
@@ -94,9 +132,12 @@ struct MealDetailsView: View {
                     .foregroundStyle(.white)
                     .lineLimit(2)
 
-                HStack(spacing: 8) {
-                    MealTag(text: meal.strArea, color: .red)
-                    MealTag(text: meal.strCategory, color: .orange)
+                if !headerTags.isEmpty {
+                    HStack(spacing: 8) {
+                        ForEach(Array(headerTags.prefix(2).enumerated()), id: \.offset) { index, tag in
+                            MealTag(text: tag, color: index == 0 ? .red : .orange)
+                        }
+                    }
                 }
             }
             .padding(12)
@@ -113,6 +154,10 @@ struct MealDetailsView: View {
             return nil
         }
         return url
+    }
+
+    private var headerTags: [String] {
+        meal.displayTags
     }
 
     private func sectionTitle(_ text: String) -> some View {
