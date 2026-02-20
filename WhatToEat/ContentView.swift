@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  WhatToEat
-//
-//  Created by Radu Nani on 17.02.2026.
-//
-
 import SwiftUI
 import CoreData
 

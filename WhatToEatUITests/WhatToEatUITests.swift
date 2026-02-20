@@ -1,10 +1,3 @@
-//
-//  WhatToEatUITests.swift
-//  WhatToEatUITests
-//
-//  Created by Radu Nani on 17.02.2026.
-//
-
 import XCTest
 
 final class WhatToEatUITests: XCTestCase {

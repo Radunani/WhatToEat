@@ -1,10 +1,3 @@
-//
-//  WhatToEatTests.swift
-//  WhatToEatTests
-//
-//  Created by Radu Nani on 17.02.2026.
-//
-
 import Testing
 @testable import WhatToEat
 

@@ -1,18 +1,12 @@
-//
-//  WhatToEatApp.swift
-//  WhatToEat
-//
-//  Created by Radu Nani on 17.02.2026.
-//
-
 import SwiftUI
 
 @main
 struct WhatToEatApp: App {
+    private let container = AppContainer()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+            TabBarView(container: container)
         }
     }
 }
