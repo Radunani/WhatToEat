@@ -4,6 +4,17 @@
 
 This project is built as a **portfolio demonstration** to showcase SwiftUI, Clean Architecture, and modern Swift Concurrency in a production-style app structure.
 
+## Screenshots
+
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 36 08" src="https://github.com/user-attachments/assets/2a3ac80e-0467-4cf0-9449-ce9e4dff874b" />
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 36 17" src="https://github.com/user-attachments/assets/7dd80ce5-8dc6-4bd3-a266-0ff31c4eef74" />
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 37 00" src="https://github.com/user-attachments/assets/0d393587-a185-479f-b853-3d2b582e8163" />
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 36 41" src="https://github.com/user-attachments/assets/c492d9ac-ba62-4bc0-8ad4-8ef738adae44" />
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 36 29" src="https://github.com/user-attachments/assets/d1659866-29e3-47fe-a627-c56f3400bc28" />
+<img width="200" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2026-03-12 at 17 37 17" src="https://github.com/user-attachments/assets/3e44bbf0-bfd6-4af6-8bd8-406764bb8207" />
+
+![demo](https://github.com/user-attachments/assets/e44fcb89-64b3-4548-9930-82cb03f842a4)
+
 ## Demo Scope
 
 This repository is intended for demonstration/portfolio purposes:
