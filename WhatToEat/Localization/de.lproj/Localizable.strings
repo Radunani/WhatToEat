@@ -1,0 +1,59 @@
+"common.ok" = "OK";
+
+"alert.server_error.title" = "Serverfehler";
+"alert.server_error.invalid_data.message" = "Die vom Server empfangenen Daten sind ungültig. Bitte versuche es später erneut.";
+"alert.server_error.invalid_response.message" = "Ungültige Antwort vom Server. Bitte versuche es später erneut.";
+"alert.server_error.invalid_url.message" = "Ungültige URL. Bitte versuche es später erneut.";
+"alert.server_error.something_wrong.message" = "Etwas ist schiefgelaufen. Bitte versuche es später erneut.";
+"alert.error.title" = "Fehler";
+"alert.meals_load_failed.message" = "Gerichte konnten nicht geladen werden.";
+"alert.meal_details_load_failed.message" = "Gerichtdetails konnten nicht geladen werden.";
+
+"tab.meal_of_day" = "Gericht des Tages";
+"tab.meals" = "Gerichte";
+"tab.favorites" = "Favoriten";
+
+"meals.navigation_title" = "Gerichte";
+"meals.search_by" = "Suchen nach";
+
+"mode.name.title" = "Name";
+"mode.category.title" = "Kategorie";
+"mode.area.title" = "Region";
+"mode.ingredient.title" = "Zutat";
+"mode.name.placeholder" = "Gerichtsnamen eingeben";
+"mode.category.placeholder" = "Kategorie eingeben";
+"mode.area.placeholder" = "Region eingeben";
+"mode.ingredient.placeholder" = "Zutat eingeben";
+"mode.name.search_prompt" = "Gerichte nach Namen suchen";
+"mode.category.search_prompt" = "Kategorien filtern";
+"mode.area.search_prompt" = "Regionen filtern";
+"mode.ingredient.search_prompt" = "Zutaten filtern";
+
+"filter.route.title" = "%@: %@";
+
+"section.results" = "Ergebnisse";
+"section.suggestions" = "Vorschläge";
+
+"content.error.title" = "Fehler";
+"content.error.load_meals_failed" = "Gerichte konnten nicht geladen werden.";
+"content.no_results.title" = "Keine Ergebnisse";
+"content.no_results.adjust_filter" = "Passe deinen Filter an und versuche es erneut.";
+"content.no_results.for_value" = "Keine Gerichte für %@ gefunden.";
+"content.no_suggestions.title" = "Keine Vorschläge";
+"content.no_suggestions.for_mode" = "Derzeit sind keine Einträge für %@ verfügbar.";
+"content.no_favorites.title" = "Keine Favoriten";
+"content.no_favorites.message" = "Füge Gerichte zu Favoriten hinzu, dann erscheinen sie hier.";
+
+"meal_of_day.navigation_title" = "Gericht des Tages";
+"favorites.navigation_title" = "Favoriten";
+"meal_details.navigation_title" = "Gerichtdetails";
+"meal_details.watch_video" = "Video ansehen";
+"meal_details.ingredients" = "Zutaten";
+"meal_details.instructions" = "Anleitung";
+"alert.favorite_state_load_failed.message" = "Favoritenstatus konnte nicht geladen werden.";
+"alert.favorites_update_failed.message" = "Favoriten konnten nicht aktualisiert werden.";
+"alert.favorite_remove_failed.message" = "Favoritengericht konnte nicht entfernt werden.";
+"alert.favorites_reorder_failed.message" = "Favoriten konnten nicht neu sortiert werden.";
+"accessibility.remove_from_favorites" = "Aus Favoriten entfernen";
+"accessibility.add_to_favorites" = "Zu Favoriten hinzufügen";
+"common.close" = "Schließen";

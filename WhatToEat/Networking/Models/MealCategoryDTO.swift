@@ -1,6 +1,6 @@
 import Foundation
 
-struct MealCategory: Decodable, Identifiable {
+struct MealCategoryDTO: Decodable, Identifiable {
     let idCategory: String
     let strCategory: String
     let strCategoryThumb: String
@@ -8,4 +8,3 @@ struct MealCategory: Decodable, Identifiable {
 
     var id: String { idCategory }
 }
-

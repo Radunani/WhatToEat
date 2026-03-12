@@ -1,50 +1,46 @@
 import SwiftUI
 
-private enum FavoritesEvents {
-    static let didChange = Notification.Name("FavoritesMealStore.didChange")
-}
-
 struct MealListCell: View {
-
-    let meal: Meal
+    @State private var viewModel: MealListCellViewModel
     let thumbnailSize: MealThumbnailSize
-    let favoritesMealStore: FavoritesMealStore
-    @State private var isFavorite = false
-    @State private var isUpdatingFavorite = false
-    @State private var favoriteStateRequestID = UUID()
+    let showsFavoriteButton: Bool
 
-    private var tags: [String] { meal.displayTags }
+    private var tags: [String] { viewModel.meal.displayTags }
+    private var displayedTags: [String] { Array(tags.prefix(2)) }
+
+    init(
+        meal: Meal,
+        thumbnailSize: MealThumbnailSize,
+        favoritesMealStore: FavoritesMealStore,
+        showsFavoriteButton: Bool = true
+    ) {
+        _viewModel = State(initialValue: MealListCellViewModel(meal: meal, favoritesMealStore: favoritesMealStore))
+        self.thumbnailSize = thumbnailSize
+        self.showsFavoriteButton = showsFavoriteButton
+    }
 
     var body: some View {
         ZStack(alignment: .leading) {
 
-            CachedRemoteImage(url: meal.thumbnailURL(size: thumbnailSize))
+            CachedRemoteImage(url: viewModel.meal.thumbnailURL(size: thumbnailSize))
                 .aspectRatio(contentMode: .fill)
                 .frame(height: 180)
                 .clipped()
 
-            LinearGradient(
-                colors: [
-                    .black.opacity(0.05),
-                    .black.opacity(0.50),
-                    .black.opacity(0.85)
-                ],
-                startPoint: .trailing,
-                endPoint: .leading
-            )
+            MealImageOverlayGradient()
 
             VStack(alignment: .leading, spacing: 8) {
-                Text(meal.strMeal)
+                Text(viewModel.meal.strMeal)
                     .font(.title)
-                    .fontWeight(.bold)
+                    .bold()
                     .foregroundStyle(.white)
                     .lineLimit(2)
 
-                if !tags.isEmpty {
+                if !displayedTags.isEmpty {
                     HStack(spacing: 8) {
-                        ForEach(Array(tags.prefix(2).enumerated()), id: \.offset) { index, tag in
+                        ForEach(displayedTags.indices, id: \.self) { index in
                             MealTag(
-                                text: tag,
+                                text: displayedTags[index],
                                 color: index == 0 ? .red : .orange
                             )
                         }
@@ -56,81 +52,29 @@ struct MealListCell: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button {
-                        Task { await toggleFavorite() }
-                    } label: {
-                        Image(systemName: isFavorite ? "heart.fill" : "heart")
-                            .foregroundStyle(isFavorite ? .red : .white)
-                            .font(.system(size: 18, weight: .semibold))
-                            .padding(10)
-                            .background(.black.opacity(0.35), in: Circle())
+                    if showsFavoriteButton {
+                        FavoriteBadgeButton(
+                            isFavorite: viewModel.isFavorite,
+                            isDisabled: viewModel.isUpdatingFavorite,
+                            onToggle: {
+                                await viewModel.toggleFavorite()
+                            }
+                        )
                     }
-                    .buttonStyle(.plain)
-                    .disabled(isUpdatingFavorite)
-                    .accessibilityIdentifier("mealcell.favorite")
-                    .accessibilityLabel(isFavorite ? "Remove from favourites" : "Add to favourites")
                 }
                 Spacer()
             }
             .padding(12)
         }
         .frame(height: 180)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .task(id: meal.idMeal) {
-            await loadFavoriteState()
+        .clipShape(.rect(cornerRadius: 16))
+        .task(id: viewModel.meal.idMeal) {
+            guard showsFavoriteButton else { return }
+            viewModel.startObservingFavorites()
         }
-        .onReceive(NotificationCenter.default.publisher(for: FavoritesEvents.didChange)) { notification in
-            let idMeal = notification.userInfo?["idMeal"] as? String
-            guard idMeal == nil || idMeal == meal.idMeal else { return }
-            Task { await loadFavoriteState() }
-        }
-    }
-
-    @MainActor
-    private func loadFavoriteState() async {
-        let requestID = UUID()
-        favoriteStateRequestID = requestID
-
-        do {
-            let currentValue = try await favoritesMealStore.isFavorite(idMeal: meal.idMeal)
-            guard requestID == favoriteStateRequestID else { return }
-            isFavorite = currentValue
-        } catch {
-            guard requestID == favoriteStateRequestID else { return }
+        .onDisappear {
+            guard showsFavoriteButton else { return }
+            viewModel.stopObservingFavorites()
         }
     }
-
-    @MainActor
-    private func toggleFavorite() async {
-        guard !isUpdatingFavorite else { return }
-        favoriteStateRequestID = UUID()
-        isUpdatingFavorite = true
-        defer { isUpdatingFavorite = false }
-
-        let willBeFavorite = !isFavorite
-        isFavorite = willBeFavorite
-
-        do {
-            if willBeFavorite {
-                try await favoritesMealStore.addToFavorites(meal)
-            } else {
-                try await favoritesMealStore.removeFromFavorites(idMeal: meal.idMeal)
-            }
-            NotificationCenter.default.post(
-                name: FavoritesEvents.didChange,
-                object: nil,
-                userInfo: ["idMeal": meal.idMeal]
-            )
-        } catch {
-            isFavorite.toggle()
-        }
-    }
-}
-
-#Preview {
-    MealListCell(
-        meal: MockData.randomMeals.first!,
-        thumbnailSize: .medium,
-        favoritesMealStore: CoreDataFavoritesManager()
-    )
 }

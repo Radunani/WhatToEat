@@ -1,20 +1,11 @@
 import Foundation
 
-protocol AppContainerProtocol {
-    @MainActor
-    func makeMealOfTheDayViewModel() -> MealOfTheDayViewModel
-    @MainActor
-    func makeMealsViewModel() -> MealsViewModel
-    @MainActor
-    func makeFavouritesViewModel() -> FavouritesViewModel
-    func makeFavoritesMealStore() -> FavoritesMealStore
-}
-
 final class AppContainer: AppContainerProtocol {
     private lazy var networkClient: NetworkClient = NetworkManager.shared
     private lazy var mealService: MealDBServiceProtocol = MealDBAPIService(networkClient: networkClient)
     private lazy var remoteDataSource: MealRemoteDataSource = MealRemoteDataSourceImpl(service: mealService)
     private lazy var mealRepository: MealRepository = MealRepositoryImpl(remoteDataSource: remoteDataSource)
+    @MainActor
     private lazy var favoritesMealStore: FavoritesMealStore = CoreDataFavoritesManager()
 
     @MainActor
@@ -38,10 +29,11 @@ final class AppContainer: AppContainerProtocol {
     }
 
     @MainActor
-    func makeFavouritesViewModel() -> FavouritesViewModel {
-        FavouritesViewModel(favoritesMealStore: favoritesMealStore)
+    func makeFavoritesViewModel() -> FavoritesViewModel {
+        FavoritesViewModel(favoritesMealStore: favoritesMealStore)
     }
 
+    @MainActor
     func makeFavoritesMealStore() -> FavoritesMealStore {
         favoritesMealStore
     }

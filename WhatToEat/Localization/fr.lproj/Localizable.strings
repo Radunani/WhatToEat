@@ -1,0 +1,59 @@
+"common.ok" = "OK";
+
+"alert.server_error.title" = "Erreur serveur";
+"alert.server_error.invalid_data.message" = "Les données reçues du serveur sont invalides. Veuillez réessayer plus tard.";
+"alert.server_error.invalid_response.message" = "Réponse invalide du serveur. Veuillez réessayer plus tard.";
+"alert.server_error.invalid_url.message" = "URL invalide. Veuillez réessayer plus tard.";
+"alert.server_error.something_wrong.message" = "Une erreur est survenue. Veuillez réessayer plus tard.";
+"alert.error.title" = "Erreur";
+"alert.meals_load_failed.message" = "Impossible de charger les repas.";
+"alert.meal_details_load_failed.message" = "Impossible de charger les détails du repas.";
+
+"tab.meal_of_day" = "Plat du jour";
+"tab.meals" = "Repas";
+"tab.favorites" = "Favoris";
+
+"meals.navigation_title" = "Repas";
+"meals.search_by" = "Rechercher par";
+
+"mode.name.title" = "Nom";
+"mode.category.title" = "Catégorie";
+"mode.area.title" = "Région";
+"mode.ingredient.title" = "Ingrédient";
+"mode.name.placeholder" = "Saisissez le nom du repas";
+"mode.category.placeholder" = "Saisissez la catégorie";
+"mode.area.placeholder" = "Saisissez la région";
+"mode.ingredient.placeholder" = "Saisissez l'ingrédient";
+"mode.name.search_prompt" = "Rechercher des repas par nom";
+"mode.category.search_prompt" = "Filtrer les catégories";
+"mode.area.search_prompt" = "Filtrer les régions";
+"mode.ingredient.search_prompt" = "Filtrer les ingrédients";
+
+"filter.route.title" = "%@: %@";
+
+"section.results" = "Résultats";
+"section.suggestions" = "Suggestions";
+
+"content.error.title" = "Erreur";
+"content.error.load_meals_failed" = "Impossible de charger les repas.";
+"content.no_results.title" = "Aucun résultat";
+"content.no_results.adjust_filter" = "Ajustez votre filtre et réessayez.";
+"content.no_results.for_value" = "Aucun repas trouvé pour %@.";
+"content.no_suggestions.title" = "Aucune suggestion";
+"content.no_suggestions.for_mode" = "Aucun élément disponible pour %@ pour le moment.";
+"content.no_favorites.title" = "Aucun favori";
+"content.no_favorites.message" = "Ajoutez des repas aux favoris et ils apparaîtront ici.";
+
+"meal_of_day.navigation_title" = "Plat du jour";
+"favorites.navigation_title" = "Favoris";
+"meal_details.navigation_title" = "Détails du repas";
+"meal_details.watch_video" = "Voir la vidéo";
+"meal_details.ingredients" = "Ingrédients";
+"meal_details.instructions" = "Instructions";
+"alert.favorite_state_load_failed.message" = "Impossible de charger l'état favori.";
+"alert.favorites_update_failed.message" = "Impossible de mettre à jour les favoris.";
+"alert.favorite_remove_failed.message" = "Impossible de supprimer le repas favori.";
+"alert.favorites_reorder_failed.message" = "Impossible de réorganiser les favoris.";
+"accessibility.remove_from_favorites" = "Retirer des favoris";
+"accessibility.add_to_favorites" = "Ajouter aux favoris";
+"common.close" = "Fermer";

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol MealRepository {
+protocol MealRepository: Sendable {
     func randomMeal() async throws -> Meal?
     func lookupMeal(byID id: String) async throws -> Meal?
     func searchMeals(byName name: String) async throws -> [Meal]

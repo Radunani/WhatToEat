@@ -1,0 +1,59 @@
+"common.ok" = "OK";
+
+"alert.server_error.title" = "Server Error";
+"alert.server_error.invalid_data.message" = "Data received from the server is invalid. Please try again later.";
+"alert.server_error.invalid_response.message" = "Invalid response from the server. Please try again later.";
+"alert.server_error.invalid_url.message" = "Invalid URL. Please try again later.";
+"alert.server_error.something_wrong.message" = "Something went wrong. Please try again later.";
+"alert.error.title" = "Error";
+"alert.meals_load_failed.message" = "Could not load meals.";
+"alert.meal_details_load_failed.message" = "Could not load meal details.";
+
+"tab.meal_of_day" = "Meal of the day";
+"tab.meals" = "Meals";
+"tab.favorites" = "Favorites";
+
+"meals.navigation_title" = "Meals";
+"meals.search_by" = "Search by";
+
+"mode.name.title" = "Name";
+"mode.category.title" = "Category";
+"mode.area.title" = "Area";
+"mode.ingredient.title" = "Ingredient";
+"mode.name.placeholder" = "Enter meal name";
+"mode.category.placeholder" = "Enter category";
+"mode.area.placeholder" = "Enter area";
+"mode.ingredient.placeholder" = "Enter ingredient";
+"mode.name.search_prompt" = "Search meals by name";
+"mode.category.search_prompt" = "Filter categories";
+"mode.area.search_prompt" = "Filter areas";
+"mode.ingredient.search_prompt" = "Filter ingredients";
+
+"filter.route.title" = "%@: %@";
+
+"section.results" = "Results";
+"section.suggestions" = "Suggestions";
+
+"content.error.title" = "Error";
+"content.error.load_meals_failed" = "Could not load meals.";
+"content.no_results.title" = "No Results";
+"content.no_results.adjust_filter" = "Adjust your filter and try searching again.";
+"content.no_results.for_value" = "No meals found for %@.";
+"content.no_suggestions.title" = "No Suggestions";
+"content.no_suggestions.for_mode" = "No items are available for %@ right now.";
+"content.no_favorites.title" = "No Favorites";
+"content.no_favorites.message" = "Add meals to favorites and they will appear here.";
+
+"meal_of_day.navigation_title" = "Meal of the day";
+"favorites.navigation_title" = "Favorites";
+"meal_details.navigation_title" = "Meal Details";
+"meal_details.watch_video" = "Watch Video";
+"meal_details.ingredients" = "Ingredients";
+"meal_details.instructions" = "Instructions";
+"alert.favorite_state_load_failed.message" = "Could not load favorite state.";
+"alert.favorites_update_failed.message" = "Could not update favorites.";
+"alert.favorite_remove_failed.message" = "Could not remove favorite meal.";
+"alert.favorites_reorder_failed.message" = "Could not reorder favorites.";
+"accessibility.remove_from_favorites" = "Remove from favorites";
+"accessibility.add_to_favorites" = "Add to favorites";
+"common.close" = "Close";

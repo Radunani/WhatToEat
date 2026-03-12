@@ -5,4 +5,3 @@ enum MealListItems {
     case areas([String])
     case ingredients([Ingredient])
 }
-

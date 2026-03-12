@@ -11,10 +11,6 @@ struct MealTag: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
             .background(color.opacity(0.70))
-            .clipShape(Capsule())
+            .clipShape(.capsule)
     }
-}
-
-#Preview {
-    MealTag(text: "Meal", color: .orange)
 }

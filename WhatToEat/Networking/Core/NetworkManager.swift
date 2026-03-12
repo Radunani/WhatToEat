@@ -1,7 +1,5 @@
 import Foundation
 
-struct EmptyResponse: Decodable {}
-
 struct NetworkManager {
     static let shared = NetworkManager()
 

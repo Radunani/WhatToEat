@@ -1,6 +1,5 @@
 import Foundation
 
 struct CategoriesResponse: Decodable {
-    let categories: [MealCategory]
+    let categories: [MealCategoryDTO]
 }
-

@@ -1,7 +1,7 @@
-import CoreData
+@preconcurrency import CoreData
 
 extension NSManagedObjectContext {
-    func performAsync<T>(_ work: @escaping () throws -> T) async throws -> T {
+    func performAsync<T: Sendable>(_ work: @escaping @Sendable () throws -> T) async throws -> T {
         try await withCheckedThrowingContinuation { continuation in
             perform {
                 do {

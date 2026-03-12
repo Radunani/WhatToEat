@@ -1,6 +1,6 @@
 import Foundation
 
-struct FilteredMeal: Decodable, Identifiable, Hashable {
+struct FilteredMealDTO: Decodable, Identifiable, Hashable {
     let idMeal: String
     let strMeal: String
     let strMealThumb: String?

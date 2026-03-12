@@ -1,27 +1,40 @@
 import Foundation
-
-struct MealFeedEntry: Identifiable {
-    let id = UUID()
-    let meal: Meal
-}
+import Observation
 
 @MainActor
-final class MealOfTheDayViewModel: ObservableObject {
-    @Published private(set) var meals: [Meal] = []
-    @Published private(set) var mealEntries: [MealFeedEntry] = []
-    @Published private(set) var isLoading = false
-    @Published private(set) var alertItem: AlertItem?
+@Observable
+final class MealOfTheDayViewModel {
+    private(set) var meals: [Meal] = []
+    private(set) var mealEntries: [MealFeedEntry] = []
+    private(set) var isLoading = false
+    private(set) var alertItem: AlertItem?
     
+    @ObservationIgnored
     private let getRandomMealUseCase: GetRandomMealUseCase
+    @ObservationIgnored
+    private var liveFeedTask: Task<Void, Never>?
+    @ObservationIgnored
+    private var hasStartedInitialFeed = false
     
     init(getRandomMealUseCase: GetRandomMealUseCase) {
         self.getRandomMealUseCase = getRandomMealUseCase
     }
     
     var liveMealOfTheDay: LiveMealOfTheDay {
-        LiveMealOfTheDay(intervalSeconds: 3, maxRequests: 2) { [getRandomMealUseCase] in
-            try? await getRandomMealUseCase.execute()
+        LiveMealOfTheDay(intervalSeconds: 3, maxRequests: 4) { [weak self] in
+            guard let self else { return nil }
+            return try? await self.getRandomMealUseCase.execute()
         }
+    }
+
+    func startInitialFeedIfNeeded() {
+        guard !hasStartedInitialFeed else { return }
+        hasStartedInitialFeed = true
+        startLiveFeed(reset: false)
+    }
+
+    func restartLiveFeed() {
+        startLiveFeed(reset: true)
     }
     
     func loadMeal() async {
@@ -47,10 +60,9 @@ final class MealOfTheDayViewModel: ObservableObject {
         }
     }
 
-    func refreshMeals() async {
+    func resetMeals() {
         meals.removeAll()
         mealEntries.removeAll()
-        await loadMeal()
     }
     
     func push(_ meal: Meal) {
@@ -60,5 +72,24 @@ final class MealOfTheDayViewModel: ObservableObject {
     private func insert(_ meal: Meal) {
         meals.insert(meal, at: 0)
         mealEntries.insert(MealFeedEntry(meal: meal), at: 0)
+    }
+
+    private func startLiveFeed(reset: Bool) {
+        liveFeedTask?.cancel()
+        if reset {
+            resetMeals()
+        }
+
+        liveFeedTask = Task { [weak self] in
+            guard let self else { return }
+            for await meal in self.liveMealOfTheDay {
+                if Task.isCancelled { return }
+                self.push(meal)
+            }
+        }
+    }
+
+    deinit {
+        liveFeedTask?.cancel()
     }
 }

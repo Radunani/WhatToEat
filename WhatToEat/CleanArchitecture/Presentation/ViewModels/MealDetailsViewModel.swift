@@ -1,13 +1,18 @@
 import Foundation
+import Observation
 
 @MainActor
-final class MealDetailsViewModel: ObservableObject {
-    @Published private(set) var isFavorite = false
-    @Published private(set) var isUpdatingFavorite = false
-    @Published private(set) var errorMessage: String?
+@Observable
+final class MealDetailsViewModel {
+    private(set) var isFavorite = false
+    private(set) var isUpdatingFavorite = false
+    private(set) var alertItem: AlertItem?
 
+    @ObservationIgnored
     private let meal: Meal
+    @ObservationIgnored
     private let favoritesMealStore: FavoritesMealStore
+    @ObservationIgnored
     private var favoriteStateRequestID = UUID()
 
     init(meal: Meal, favoritesMealStore: FavoritesMealStore) {
@@ -25,7 +30,7 @@ final class MealDetailsViewModel: ObservableObject {
             isFavorite = currentValue
         } catch {
             guard requestID == favoriteStateRequestID else { return }
-            errorMessage = "Could not load favourite state."
+            alertItem = AlertContext.appError("alert.favorite_state_load_failed.message".localized)
         }
     }
 
@@ -44,11 +49,11 @@ final class MealDetailsViewModel: ObservableObject {
                 isFavorite = true
             }
         } catch {
-            errorMessage = "Could not update favourites."
+            alertItem = AlertContext.appError("alert.favorites_update_failed.message".localized)
         }
     }
 
-    func clearError() {
-        errorMessage = nil
+    func clearAlert() {
+        alertItem = nil
     }
 }

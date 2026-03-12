@@ -2,11 +2,11 @@ import SwiftUI
 
 @MainActor
 struct CachedRemoteImage: View {
-    @StateObject private var viewModel: RemoteImageViewModel
+    @State private var viewModel: RemoteImageViewModel
     private let url: URL?
 
     init(url: URL?, viewModel: RemoteImageViewModel? = nil) {
-        _viewModel = StateObject(wrappedValue: viewModel ?? RemoteImageViewModel())
+        _viewModel = State(initialValue: viewModel ?? RemoteImageViewModel())
         self.url = url
     }
 

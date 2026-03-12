@@ -1,6 +1,5 @@
 import Foundation
 
 struct MealsResponse: Decodable {
-    let meals: [Meal]?
+    let meals: [MealDTO]?
 }
-

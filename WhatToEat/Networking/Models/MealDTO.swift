@@ -1,6 +1,6 @@
 import Foundation
 
-struct Meal: Decodable, Identifiable, Hashable {
+struct MealDTO: Decodable, Identifiable, Hashable {
     let idMeal: String
     let strMeal: String
     let strMealAlternate: String?
@@ -14,7 +14,7 @@ struct Meal: Decodable, Identifiable, Hashable {
     let strImageSource: String?
     let strCreativeCommonsConfirmed: String?
     let dateModified: String?
-    let ingredients: [MealIngredient]
+    let ingredients: [MealIngredientDTO]
 
     var id: String { idMeal }
 
@@ -48,7 +48,7 @@ struct Meal: Decodable, Identifiable, Hashable {
         strImageSource: String?,
         strCreativeCommonsConfirmed: String?,
         dateModified: String?,
-        ingredients: [MealIngredient]
+        ingredients: [MealIngredientDTO]
     ) {
         self.idMeal = idMeal
         self.strMeal = strMeal
@@ -83,7 +83,7 @@ struct Meal: Decodable, Identifiable, Hashable {
         dateModified = try container.decodeIfPresent(String.self, forKey: .dateModified)
 
         let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKey.self)
-        var ingredientRows: [MealIngredient] = []
+        var ingredientRows: [MealIngredientDTO] = []
 
         for index in 1...20 {
             let ingredientKey = DynamicCodingKey("strIngredient\(index)")
@@ -96,7 +96,7 @@ struct Meal: Decodable, Identifiable, Hashable {
 
             guard let ingredient = rawIngredient, !ingredient.isEmpty else { continue }
             let measure = (rawMeasure?.isEmpty == false) ? rawMeasure : nil
-            ingredientRows.append(MealIngredient(ingredient: ingredient, measure: measure))
+            ingredientRows.append(MealIngredientDTO(ingredient: ingredient, measure: measure))
         }
 
         ingredients = ingredientRows

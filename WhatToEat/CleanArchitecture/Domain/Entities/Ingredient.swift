@@ -1,6 +1,6 @@
 import Foundation
 
-struct Ingredient: Decodable, Identifiable {
+struct Ingredient: Identifiable, Hashable {
     let idIngredient: String?
     let strIngredient: String
     let strDescription: String?
@@ -9,4 +9,3 @@ struct Ingredient: Decodable, Identifiable {
 
     var id: String { idIngredient ?? strIngredient }
 }
-
